@@ -6,11 +6,6 @@ import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
 export function renderPostsPageComponent({ appEl }) {
-  /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
-
   const getPostsLines = () => {
     return posts.map((post) => {
       return `<li class="post">
