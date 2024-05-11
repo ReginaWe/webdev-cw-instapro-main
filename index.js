@@ -123,8 +123,11 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        postPosts({ token: getToken(), description, imageUrl });
-        goToPage(POSTS_PAGE);
+        postPosts({ token: getToken(), description, imageUrl })
+          .then((isGood) => {
+            if (isGood)
+              goToPage(POSTS_PAGE);
+          });
       },
     });
   }
