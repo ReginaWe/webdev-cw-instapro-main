@@ -43,6 +43,8 @@ export function getUserPosts({ token, userId }) {
 }
 
 export function postPosts({ token, description, imageUrl }) {
+  let status = 0;
+
   return fetch(postsHost, {
     method: "POST",
     headers: {
@@ -52,14 +54,30 @@ export function postPosts({ token, description, imageUrl }) {
       description,
       imageUrl,
     }),
-  }).then((response) => {
-    return response.json();
-  });
+  })
+    .then((response) => {
+      status = response.status;
+      return response.json();
+    })
+    .then((responseData) => {
+      if (status >= 300)
+        throw new Error(responseData.error);
+
+      return true;
+    })
+    .catch((error) => {
+      if (error === "Failed to fetch")
+        alert("У вас сломался интернет");
+      else
+        alert(error.message);
+
+      return false;
+    });
 }
 
 export function toggleLike({ token, postId, isLiked }) {
   const command = isLiked ? "like" : "dislike";
-  
+
   return fetch(`${postsHost}/${postId}/${command}`, {
     method: "POST",
     headers: {
